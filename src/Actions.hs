@@ -8,10 +8,9 @@ import Control.Monad.IO.Class (liftIO)
 import Test.WebDriver
 
 -- | Fill a form in the current webpage.
--- The first field is expected to be the submit button identifier.
-fillForm :: Text     -- ^ Button to submit form
+fillForm :: Text           -- ^ Button to submit form
          -> [(Text, Text)] -- ^ Form fields identifiers and data
-         -> WD ()    -- ^ Selenium computation
+         -> WD ()          -- ^ Selenium computation
 fillForm _ [] = error "No form fields to submit"
 fillForm b l = mapM_ (uncurry findByIdAndSend) l >> sleep 1 >> clickButton b >> sleep 5
 
