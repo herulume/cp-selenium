@@ -2,6 +2,7 @@ module Main where
 
 import Options.Applicative
 import Data.Text
+import Test.WebDriver
 import Actions
 import Blackboard
 import Utils
@@ -19,7 +20,9 @@ cli = CLI <$> strOption
                 ( long "password" <> short 'p' <> value "" <> help "Blackboard password" )
 
 flow :: CLI -> IO ()
-flow (CLI u p) = runInChrome $ openPageAndWait bb >> uncurry fillForm (loginFields (pack u) (pack p))
+flow (CLI u p) = runInChrome actions where
+    actions :: WD ()
+    actions= openPageAndWait bb >> uncurry fillForm (loginFields (pack u) (pack p)) >> openPageAndWait unidades
 
 main :: IO ()
 main = flow =<< execParser opts where
